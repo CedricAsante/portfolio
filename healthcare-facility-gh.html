@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthcare Facility Usage Behaviour in Ghana</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    body { scroll-behavior: smooth; }
+    .github-button, .back-button {
+      display: inline-flex;
+      align-items: center;
+      background: #1f2937;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .github-button:hover, .back-button:hover {
+      background: #374151;
+      transform: scale(1.05);
+    }
+    .github-button i, .back-button i {
+      margin-right: 8px;
+    }
+    .insight-section { margin-bottom: 2rem; }
+    .chart-container { max-width: 600px; margin: 2rem auto; }
+    .table-auto { width: 100%; border-collapse: collapse; }
+    .table-auto th, .table-auto td { border: 1px solid #4b5563; padding: 8px; text-align: left; }
+    .table-auto th { background-color: #1f2937; }
+  </style>
+</head>
+<body class="bg-zinc-900 text-white font-sans">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useEffect, useRef, useState } = React;
+
+    const Navbar = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <nav className="fixed top-0 w-full bg-zinc-900 bg-opacity-90 z-50 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              {/* Logo */}
+              <div className="flex items-center">
+                <span className="text-2xl font-bold">Data Scientist</span>
+              </div>
+
+              {/* Desktop Menu */}
+              <div className="hidden md:flex items-center space-x-4">
+                <a href="index.html#home" className="hover:text-red-700">Home</a>
+                <a href="index.html#about" className="hover:text-red-700">About</a>
+                <a href="index.html#projects" className="hover:text-red-700">Projects</a>
+                <a href="index.html#skills" className="hover:text-red-700">Skills</a>
+              </div>
+
+              {/* Hamburger Icon */}
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="text-white text-2xl">
+                  <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'}`}></i>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Menu */}
+            {isOpen && (
+              <div className="md:hidden flex flex-col space-y-2 mt-2 px-2 pb-4">
+                <a href="index.html#home" className="hover:text-red-700">Home</a>
+                <a href="index.html#about" className="hover:text-red-700">About</a>
+                <a href="index.html#projects" className="hover:text-red-700">Projects</a>
+                <a href="index.html#skills" className="hover:text-red-700">Skills</a>
+              </div>
+            )}
+          </div>
+        </nav>
+      );
+    };
+
+    const Hero = () => (
+      <section
+        className="min-h-[50vh] flex items-center justify-center bg-cover bg-center"
+        style={{ backgroundImage: "url('assets/healthcare-fac.jpg')" }}
+      >
+      </section>
+    );
+
+    const ProjectDetails = () => (
+      <div className="max-w-3xl mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold text-justify-between mb-4">Healthcare Facility Usage Behaviour Dashboard</h1>
+        <p className="text-lg mb-6">
+          This interactive Tableau dashboard provides a comprehensive overview of healthcare
+           facility usage patterns across Ghana in 2023. It integrates demographic, geographic, 
+           and insurance-related data to uncover trends and disparities in healthcare access 
+           and utilization.
+        </p>
+
+        <h2 className="text-2xl font-semibold mb-4">Purpose and Application</h2>
+        <p className="text-lg mb-6">
+          This dashboard is a strategic tool for policymakers, healthcare providers, 
+          and researchers. It enables data-driven decisions to improve healthcare 
+          delivery, target underserved populations, and optimize insurance schemes. 
+          The visualizations foster a deeper understanding of how demographic and 
+          regional factors influence healthcare usage in Ghana.
+        </p>
+     
+
+        <h2 className="text-2xl font-semibold mb-4">Key Findings</h2>
+        <ul class="list-disc list-inside mb-15 space-y-2">
+          <li><strong>Gender Distribution:</strong> A significant gender disparity is observed, with <strong>53% of healthcare users being female</strong> and <strong>47% male</strong>, indicating higher healthcare engagement among women.</li>
+          <li><strong>Locality Type:</strong> Usage is fairly balanced between <strong>rural (53%)</strong> and <strong>urban (47%)</strong> populations, suggesting widespread access but potentially differing healthcare needs or availability.</li>
+          <li><strong>Insurance Coverage:</strong> <strong>59% of users are insured</strong>, while <strong>41% are not</strong>, highlighting a substantial portion of the population that may face financial barriers to care.</li>
+          <li><strong>Regional Health Insights:</strong> The dashboard also shows the average number of days patients had had their conditions for, highlighting the <strong>Eastern</strong> and <strong>Volta regions</strong> posted the most days.</li>
+          <li><strong>Hospital Stay Analysis:</strong> Comparative data on <strong>average nights spent in hospitals</strong> by gender provides insight into hospitalization trends and potential gender-based health disparities.</li>
+          <li><strong>Insurance Impact Visualization:</strong> A <strong>scatter plot</strong> illustrates the relationship between <strong>days with a condition</strong> and <strong>flights (or costs) spent</strong>, segmented by insurance status, offering a lens into how insurance affects healthcare behavior.</li>
+          <li><strong>Age Distribution:</strong> An age-based breakdown supports demographic analysis, helping identify which age groups are most engaged with healthcare services.</li>
+        </ul>
+        <img src="assets/healthcare-fac.png" alt="Healthcare Facility Usage Behaviour in Ghana" className="visualization-img mt-6 mb-6" />
+
+        <p className="text-lg mb-6 text-center">
+          <a href="https://public.tableau.com/views/HealthcareFacilityUsageBehaviourinGhana/HealthcareFacilityUsage?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link" target="_blank" className="github-button">
+            <i className="fab fa-tableau"></i> View Dashboard on Tableau
+          </a>
+        </p>
+        <p className="text-lg mb-6 text-center">
+          <a href="index.html#projects" className="back-button">
+            <i className="fas fa-arrow-left"></i> Back to Portfolio
+          </a>
+        </p>
+      </div>
+    );
+
+    const App = () => {
+      React.useEffect(() => {
+        const canvas = document.getElementById('revenueChart');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Sentiment Analysis', 'Translation'],
+              datasets: [{
+                label: 'Performance Metrics',
+                data: [0.78, 0.6027],
+                backgroundColor: ['#ef4444', '#3b82f6'],
+                borderColor: ['#dc2626', '#2563eb'],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: true, labels: { color: '#ffffff' } },
+                title: {
+                  display: true,
+                  text: 'Model Performance (F1 and BLEU Scores)',
+                  color: '#ffffff',
+                  font: { size: 16 }
+                }
+              },
+              scales: {
+                y: { beginAtZero: true, ticks: { color: '#ffffff' }, grid: { color: '#4b5563' } },
+                x: { ticks: { color: '#ffffff' }, grid: { display: false } }
+              }
+            }
+          });
+        }
+      }, []);
+
+      return (
+        <div>
+          <Navbar />
+          <Hero />
+          <ProjectDetails />
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
