@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NLP-Powered Chatbot for Automotive Reviews</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    body { scroll-behavior: smooth; }
+    .github-button, .back-button {
+      display: inline-flex;
+      align-items: center;
+      background: #1f2937;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .github-button:hover, .back-button:hover {
+      background: #374151;
+      transform: scale(1.05);
+    }
+    .github-button i, .back-button i {
+      margin-right: 8px;
+    }
+    .insight-section { margin-bottom: 2rem; }
+    .chart-container { max-width: 600px; margin: 2rem auto; }
+    .table-auto { width: 100%; border-collapse: collapse; }
+    .table-auto th, .table-auto td { border: 1px solid #4b5563; padding: 8px; text-align: left; }
+    .table-auto th { background-color: #1f2937; }
+  </style>
+</head>
+<body class="bg-zinc-900 text-white font-sans">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useEffect, useRef, useState } = React;
+
+    const Navbar = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <nav className="fixed top-0 w-full bg-zinc-900 bg-opacity-90 z-50 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              {/* Logo */}
+              <div className="flex items-center">
+                <span className="text-2xl font-bold">Data Scientist</span>
+              </div>
+
+              {/* Desktop Menu */}
+              <div className="hidden md:flex items-center space-x-4">
+                <a href="index.html#home" className="hover:text-red-700">Home</a>
+                <a href="index.html#about" className="hover:text-red-700">About</a>
+                <a href="index.html#projects" className="hover:text-red-700">Projects</a>
+                <a href="index.html#skills" className="hover:text-red-700">Skills</a>
+              </div>
+
+              {/* Hamburger Icon */}
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="text-white text-2xl">
+                  <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'}`}></i>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Menu */}
+            {isOpen && (
+              <div className="md:hidden flex flex-col space-y-2 mt-2 px-2 pb-4">
+                <a href="index.html#home" className="hover:text-red-700">Home</a>
+                <a href="index.html#about" className="hover:text-red-700">About</a>
+                <a href="index.html#projects" className="hover:text-red-700">Projects</a>
+                <a href="index.html#skills" className="hover:text-red-700">Skills</a>
+              </div>
+            )}
+          </div>
+        </nav>
+      );
+    };
+
+    const Hero = () => (
+      <section
+        className="min-h-[50vh] flex items-center justify-center bg-cover bg-center"
+        style={{ backgroundImage: "url('assets/car-sharing.jpg')" }}
+      >
+      </section>
+    );
+
+    const ProjectDetails = () => (
+      <div className="max-w-3xl mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold text-justify-between mb-4">NLP-Powered Chatbot Prototype for Automotive Reviews</h1>
+        <p className="text-lg mb-6">
+          This project develops a multi-functional chatbot for a fictional auto dealership, Car-ing is Sharing, using Large Language Models (LLMs). The chatbot assists customers and support agents by performing natural language processing tasks on car-related text data.
+        </p>
+
+        <h2 className="text-2xl font-semibold mb-4">Tools and Skills</h2>
+        <ul className="list-disc pl-6 mb-6">
+          <li><strong>Languages & Libraries</strong>: Python, Hugging Face Transformers, Pandas, Evaluate, Datasets, SentencePiece</li>
+          <li><strong>Models Used</strong>: DistilBERT, MarianMT, MiniLM, T5</li>
+          <li><strong>Evaluation Metrics</strong>: Accuracy, F1 Score, BLEU</li>
+          <li><strong>Environment</strong>: Jupyter Notebook</li>
+        </ul>
+
+        <h2 className="text-2xl font-semibold mb-4">Key Findings</h2>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">🔍 Sentiment Analysis</h3>
+          <p>Used the distilbert-base-uncased-finetuned-sst-2-english model to classify customer reviews as positive or negative.</p>
+          <h3 className="text-lg font-semibold mb-2">✅ Results</h3>
+          <ul className="list-disc pl-6 mb-6">
+            <li>Accuracy: 0.80</li>
+            <li>F1 Score: 0.78</li>
+            <li>Misclassifications occurred in reviews with mixed or nuanced sentiment, suggesting potential for fine-tuning.</li>
+          </ul>
+        </div>
+
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">🌐 Translation & Evaluation</h3>
+          <p>Implemented English-to-Spanish translation using Helsinki-NLP/opus-mt-en-es. Evaluated translation quality using BLEU score against human-written reference translations.</p>
+          <h3 className="text-lg font-semibold mb-2">🧪 BLEU Score</h3>
+          <p>0.6027: This indicates a reasonably good match between model output and reference translations.</p>
+        </div>
+
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">❓ Question Answering</h3>
+          <p>Used deepset/minilm-uncased-squad2 to extract answers from reviews based on user queries.</p>
+          <p className="mb-2"><strong>Example:</strong></p>
+          <p>Question: "What did he like about the brand?"</p>
+          <p>Answer: "ride quality, reliability"</p>
+          <p>This feature supports both customer inquiries and internal analytics by extracting key insights from unstructured text.</p>
+        </div>
+
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">📝 Summarization</h3>
+          <p>Used cnicu/t5-small-booksum to generate concise summaries of long customer reviews.</p>
+          <p className="mb-2"><strong>Example Output:</strong></p>
+          <p>The Nissan Rogue provides the desired SUV experience with a reasonable financial arrangement. It can haul 12 bags of mulch with seats down and could hold more.</p>
+          <p>This functionality is valuable for customer service agents and marketing teams who need quick insights.</p>
+        </div>
+
+        <h2 className="text-2xl font-semibold mb-4">📈 Summary of Capabilities</h2>
+        <table className="table-auto mb-6">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Model Used</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sentiment Analysis</td>
+              <td>distilbert-base-uncased-finetuned-sst-2-english</td>
+              <td>Classify customer sentiment</td>
+            </tr>
+            <tr>
+              <td>Translation</td>
+              <td>Helsinki-NLP/opus-mt-en-es</td>
+              <td>Translate reviews to Spanish</td>
+            </tr>
+            <tr>
+              <td>BLEU Evaluation</td>
+              <td>evaluate BLEU</td>
+              <td>Assess translation quality</td>
+            </tr>
+            <tr>
+              <td>Question Answering</td>
+              <td>deepset/minilm-uncased-squad2</td>
+              <td>Extract answers from reviews</td>
+            </tr>
+            <tr>
+              <td>Summarization</td>
+              <td>cnicu/t5-small-booksum</td>
+              <td>Generate concise summaries of long reviews</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 className="text-2xl font-semibold mb-4">Model Performance</h2>
+        <div className="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+
+        <h2 className="text-2xl font-semibold mb-4">🚀 Next Steps</h2>
+        <ul className="list-disc pl-6 mb-6">
+          <li>Integrate all features into a Streamlit-based chatbot interface.</li>
+          <li>Fine-tune models on domain-specific data for improved accuracy.</li>
+          <li>Expand language support and add named entity recognition (NER) for extracting car models, brands, and issues.</li>
+        </ul>
+
+        <h2 className="text-2xl font-semibold mb-4">📌 Key Takeaways</h2>
+        <p className="text-lg mb-6">This project demonstrates the practical application of transformer-based NLP models in a business context. It showcases my ability to:</p>
+        <ul className="list-disc pl-6 mb-6">
+          <li>Build end-to-end NLP pipelines</li>
+          <li>Evaluate model performance using industry-standard metrics</li>
+          <li>Apply LLMs to solve real-world problems in customer service and analytics</li>
+        </ul>
+
+        <p className="text-lg mb-6 text-center">
+          <a href="https://github.com/CedricAsante/nlp-chatbot" target="_blank" className="github-button">
+            <i className="fab fa-github"></i> View Project on GitHub
+          </a>
+        </p>
+        <p className="text-lg mb-6 text-center">
+          <a href="index.html#projects" className="back-button">
+            <i className="fas fa-arrow-left"></i> Back to Portfolio
+          </a>
+        </p>
+      </div>
+    );
+
+    const App = () => {
+      React.useEffect(() => {
+        const canvas = document.getElementById('revenueChart');
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Sentiment Analysis', 'Translation'],
+              datasets: [{
+                label: 'Performance Metrics',
+                data: [0.78, 0.6027],
+                backgroundColor: ['#ef4444', '#3b82f6'],
+                borderColor: ['#dc2626', '#2563eb'],
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: { display: true, labels: { color: '#ffffff' } },
+                title: {
+                  display: true,
+                  text: 'Model Performance (F1 and BLEU Scores)',
+                  color: '#ffffff',
+                  font: { size: 16 }
+                }
+              },
+              scales: {
+                y: { beginAtZero: true, ticks: { color: '#ffffff' }, grid: { color: '#4b5563' } },
+                x: { ticks: { color: '#ffffff' }, grid: { display: false } }
+              }
+            }
+          });
+        }
+      }, []);
+
+      return (
+        <div>
+          <Navbar />
+          <Hero />
+          <ProjectDetails />
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>

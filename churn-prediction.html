@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Churn Prediction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    body { scroll-behavior: smooth; }
+    .project-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .project-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); }
+    .skill-circle { transition: transform 0.3s ease; }
+    .skill-circle:hover { transform: scale(1.1); }
+    .social-button { transition: background-color 0.3s ease, transform 0.3s ease; }
+    .social-button:hover { background-color: #1f2937; transform: scale(1.1); }
+  </style>
+</head>
+<body class="bg-zinc-900 text-white font-sans">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const Navbar = () => (
+      <nav className="fixed top-0 w-full bg-zinc-900 bg-opacity-90 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <span className="text-2xl font-bold">Data Scientist</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <a href="index.html#home" className="hover:text-red-700">Home</a>
+              <a href="index.html#about" className="hover:text-red-700">About</a>
+              <a href="index.html#projects" className="hover:text-red-700">Projects</a>
+              <a href="index.html#skills" className="hover:text-red-700">Skills</a>
+              <a href="index.html#contact" className="hover:text-red-700">Contact</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+
+    const Hero = () => (
+      <section className="min-h-[50vh] flex items-center justify-center bg-gradient-to-r from-red-700 to-zinc-900">
+        <div className="text-center">
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 animate-fadeIn">Customer Churn Prediction</h1>
+        </div>
+      </section>
+    );
+
+    const ProjectDetails = () => (
+      <div className="max-w-3xl mx-auto py-8">
+        <h1 className="text-3xl font-bold text-center mb-4">Customer Churn Prediction</h1>
+        <p className="text-lg mb-4">More details about the Customer Churn Prediction project.</p>
+
+        <h2 className="text-2xl font-semibold mb-2">Code Snippet:</h2>
+        <pre className="bg-zinc-800 rounded-lg p-4 overflow-x-auto">
+          <code className="text-sm">
+            # Python code for the churn prediction model
+            import pandas as pd
+            import sklearn
+            # ... more code here
+          </code>
+        </pre>
+
+        <h2 className="text-2xl font-semibold mb-2">Model Output:</h2>
+        <pre className="bg-zinc-800 rounded-lg p-4 overflow-x-auto">
+          <code className="text-sm">
+            # Model evaluation metrics
+            Precision: 80%
+            Recall: 75%
+            # ... more output here
+          </code>
+        </pre>
+      </div>
+    );
+
+    const App = () => (
+      <div>
+        <Navbar />
+        <Hero />
+        <ProjectDetails />
+      </div>
+    );
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>

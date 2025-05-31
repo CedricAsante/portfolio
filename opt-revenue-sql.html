@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revenue Optimization with SQL</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    body { scroll-behavior: smooth; }
+    .github-button, .back-button {
+      display: inline-flex;
+      align-items: center;
+      background: #1f2937;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .github-button:hover, .back-button:hover {
+      background: #374151;
+      transform: scale(1.05);
+    }
+    .github-button i, .back-button i {
+      margin-right: 8px;
+    }
+    .insight-section { margin-bottom: 2rem; }
+    .chart-container { max-width: 600px; margin: 2rem auto; }
+  </style>
+</head>
+<body class="bg-zinc-900 text-white font-sans">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useEffect, useRef, useState } = React;
+
+    const Navbar = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      return (
+        <nav className="fixed top-0 w-full bg-zinc-900 bg-opacity-90 z-50 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              {/* Logo */}
+              <div className="flex items-center">
+                <span className="text-2xl font-bold">Data Scientist</span>
+              </div>
+
+              {/* Desktop Menu */}
+              <div className="hidden md:flex items-center space-x-4">
+                <a href="index.html#home" className="hover:text-red-700">Home</a>
+                <a href="index.html#about" className="hover:text-red-700">About</a>
+                <a href="index.html#projects" className="hover:text-red-700">Projects</a>
+                <a href="index.html#skills" className="hover:text-red-700">Skills</a>
+              </div>
+
+              {/* Hamburger Icon */}
+              <div className="md:hidden">
+                <button onClick={() => setIsOpen(!isOpen)} className="text-white text-2xl">
+                  <i className={`fas ${isOpen ? 'fa-times' : 'fa-bars'}`}></i>
+                </button>
+              </div>
+            </div>
+
+            {/* Mobile Menu */}
+            {isOpen && (
+              <div className="md:hidden flex flex-col space-y-2 mt-2 px-2 pb-4">
+                <a href="index.html#home" className="hover:text-red-700">Home</a>
+                <a href="index.html#about" className="hover:text-red-700">About</a>
+                <a href="index.html#projects" className="hover:text-red-700">Projects</a>
+                <a href="index.html#skills" className="hover:text-red-700">Skills</a>
+              </div>
+            )}
+          </div>
+        </nav>
+      );
+    };
+
+    const Hero = () => (
+      <section className="min-h-[50vh] flex items-center justify-center bg-cover bg-center" 
+      style={{ backgroundImage: "url('assets/sports-retail.jpg')" }}>
+      </section>
+
+    );
+
+    const ProjectDetails = () => (
+      <div className="max-w-3xl mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold text-justify-center mb-4">Revenue Optimization for a Sportswear E-commerce Company</h1>
+        <p className="text-lg mb-6">
+          Analyzed product, pricing, and brand data for an online sportswear 
+          retailer to uncover insights for revenue growth. Used SQL to perform
+           data quality checks, compare brand performance, evaluate discount 
+           strategies, and identify seasonal trends, leading to actionable 
+           business recommendations.
+        </p>
+       
+
+        <h2 className="text-2xl font-semibold mb-4">Tools and Skills</h2>
+        <ul className="list-disc pl-6 mb-6">
+          <li><strong>SQL (PostgreSQL)</strong>: Used joins, CTEs, aggregations, and window functions for data analysis.</li>
+          <li><strong>Data Analysis</strong>: Performed data quality checks, price segmentation, and trend analysis.</li>
+          <li><strong>Business Intelligence</strong>: Translated insights into actionable recommendations for revenue optimization.</li>
+        </ul>
+
+        <h2 className="text-2xl font-semibold mb-4">Key Findings</h2>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">🔍 1. Data Quality Assessment</h3>
+          <p><strong>Goal:</strong> Evaluate completeness of key data columns.</p>
+          <p><strong>Insight:</strong> Most columns are complete; <code>last_visited</code> has >5% missing values, impacting traffic analysis.</p>
+        </div>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">💰 2. Nike vs. Adidas Pricing</h3>
+          <p><strong>Goal:</strong> Compare price distributions of Nike and Adidas.</p>
+          <p><strong>Insight:</strong> Adidas has a wider price range, with more premium products, targeting diverse market segments.</p>
+        </div>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">🏷️ 3. Price Segmentation</h3>
+          <p><strong>Goal:</strong> Categorize products by price and analyze revenue.</p>
+          <p><strong>Insight:</strong> Adidas leads the "Elite" (≥$129) category, driving the highest revenue.</p>
+        </div>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">📉 4. Discount Strategies</h3>
+          <p><strong>Goal:</strong> Analyze brand discounting approaches.</p>
+          <p><strong>Insight:</strong> Adidas’s ~33% average discount boosts sales, while Nike offers no discounts.</p>
+        </div>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">👟 5. Footwear Performance</h3>
+          <p><strong>Goal:</strong> Assess footwear product performance.</p>
+          <p><strong>Insight:</strong> Footwear (85% of stock) generates a median revenue of $3,118.36, showing strong demand.</p>
+        </div>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">👕 6. Clothing Performance</h3>
+          <p><strong>Goal:</strong> Evaluate clothing product performance.</p>
+          <p><strong>Insight:</strong> Clothing (417 products) has a median revenue of $503.82, indicating lower demand.</p>
+        </div>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">📈 7. Seasonal Trends</h3>
+          <p><strong>Goal:</strong> Identify patterns in product reviews.</p>
+          <p><strong>Insight:</strong> Reviews peak in Q1, suggesting an opportunity for year-round engagement campaigns.</p>
+        </div>
+        <div className="insight-section">
+          <h3 className="text-xl font-semibold mb-2">🧠 8. Business Recommendations</h3>
+          <p><strong>Recommendations:</strong></p>
+          <ul className="list-disc pl-6">
+            <li>Prioritize footwear to capitalize on high revenue.</li>
+            <li>Enhance clothing strategy with promotions or repositioning.</li>
+            <li>Introduce strategic discounts for Nike to boost sales.</li>
+            <li>Leverage Q1 review peaks with year-round engagement tactics.</li>
+          </ul>
+        </div>
+
+        <h2 className="text-2xl font-semibold mb-4">Revenue Comparison</h2>
+        <div className="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+
+         <p className="text-lg mb-6 text-center">
+          <a href="https://github.com/CedricAsante/sql-projects/blob/main/Exploring%20Online%20Sports%20Retail%20Revenue/notebook.ipynb" target="_blank" className="github-button">
+            <i className="fab fa-github"></i> View SQL Queries on GitHub
+          </a>
+        </p>
+        <p className="text-lg mb-6 text-center">
+          <a href="index.html#projects" className="back-button">
+            <i className="fas fa-arrow-left"></i> Back to Portfolio
+          </a>
+        </p>
+      </div>
+    );
+
+    const App = () => {
+      React.useEffect(() => {
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Footwear', 'Clothing'],
+            datasets: [{
+              label: 'Median Revenue ($)',
+              data: [3118.36, 503.82],
+              backgroundColor: ['#ef4444', '#3b82f6'],
+              borderColor: ['#dc2626', '#2563eb'],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: true, labels: { color: '#ffffff' } },
+              title: {
+                display: true,
+                text: 'Footwear vs. Clothing Median Revenue',
+                color: '#ffffff',
+                font: { size: 16 }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { color: '#ffffff' },
+                grid: { color: '#4b5563' }
+              },
+              x: {
+                ticks: { color: '#ffffff' },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      }, []);
+
+      return (
+        <div>
+          <Navbar />
+          <Hero />
+          <ProjectDetails />
+        </div>
+      );
+    };
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
