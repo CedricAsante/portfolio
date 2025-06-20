@@ -12,8 +12,19 @@
   <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-  <style>
+<style>
     body { scroll-behavior: smooth; }
+
+    .hero-height-desktop {
+      height: 95dvh;
+      max-height: 100dvh;
+    }
+    @media (max-width: 767px) {
+      .hero-height-desktop {
+        height: 65dvh;
+        max-height: 100dvh;
+      }
+    }
     .project-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
     .project-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); }
     .skill-circle { transition: transform 0.3s ease; }
@@ -190,8 +201,7 @@
               <div className="hidden md:flex items-center space-x-4">
                 <a href="#home" className="hover:text-red-700">Home</a>
                 <a href="#about" className="hover:text-red-700">About</a>
-                <a href="#projects" className="hover:text-red-700">Projects</a>
-                <a href="#skills" className="hover:text-red-700">Skills</a>
+                <a href="#projects" className="hover:text-red-700">Skills</a>
               </div>
 
               {/* Hamburger Icon */}
@@ -207,8 +217,7 @@
               <div className="md:hidden flex flex-col space-y-2 mt-2 px-2 pb-4">
                 <a href="#home" className="hover:text-red-700">Home</a>
                 <a href="#about" className="hover:text-red-700">About</a>
-                <a href="#projects" className="hover:text-red-700">Projects</a>
-                <a href="#skills" className="hover:text-red-700">Skills</a>
+                <a href="#projects" className="hover:text-red-700">Skills</a>
               </div>
             )}
           </div>
@@ -251,7 +260,7 @@
     );
 
     const Hero = () => (
-      <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-r from-red-800 to-zinc-900 overflow-hidden px-6">
+<section id="home" className="relative flex items-center justify-center bg-gradient-to-r from-red-800 to-zinc-900 overflow-hidden px-6 hero-height-desktop">
         {/* Text + CTA */}
         <div className="relative z-10 w-full max-w-9xl px-50">
           {/* Mobile layout: stacked */}
@@ -292,6 +301,8 @@
           className="absolute bottom-[-4rem] left-1/2 transform -translate-x-1/2 z-20 max-h-[85vh] pointer-events-none"
         />
       </section>
+
+
     );
 
     const About = () => (
